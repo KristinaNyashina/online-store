@@ -1,10 +1,16 @@
 require('dotenv').config()
-const express = require('express') // require импортирует модуль экспресс
+const express = require('express')
 const sequelize = require('./db')
+const PORT =process.env.PORT || 5000
+const models = require('./models/models')
+const cors = require('cors')
+const router = require('./routes/index') //Экспорт и пиже вызов
 
-const PORT = process.env.PORT || 5000
 
 const app = express() // Создание объекта, с которого будет производиться запуск приложения
+app.use(cors())
+app.use(express.json()) // Для чтого чтобы парсило джсон формат
+app.use('/api', router) //1 парам - юрл по которому роутер обрабатывается, 2 - сам роутер
 
 const start = async () => {
     try{
