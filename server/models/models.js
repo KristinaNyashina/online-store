@@ -35,8 +35,8 @@ const Device = sequelize.define('device', {
 })
 
 const Type = sequelize.define('type', {
-    id: {type: DataTypes.INTEGER, primaryKey:true, autoIncrement:true},
-    name: {type: DataTypes.STRING, allowNull: false, unique: true}
+    id: {type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true},
+    name: {type: DataTypes.STRING, unique: true, allowNull: false},
 })
 
 const Brand = sequelize.define('brand', {
@@ -82,7 +82,7 @@ Rating.belongsTo(Device)
 Device.hasMany(BasketDevice) //Че
 BasketDevice.belongsTo(Device)
 
-Device.hasMany(DeviceInfo)
+Device.hasMany(DeviceInfo, {as : 'info'})
 DeviceInfo.belongsTo(Device)
 
 Type.belongsToMany(Brand, {through: TypeBrand} ) //Создается промежуточная таблица с информацией какой тип принадлежит какому бренду и наоборот.
