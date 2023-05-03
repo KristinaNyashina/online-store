@@ -2,19 +2,19 @@ import React, {useContext} from "react";
 import {Context} from "../index";
 import Button from 'react-bootstrap/Button';
 import Container from 'react-bootstrap/Container';
-import Form from 'react-bootstrap/Form';
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
 import NavDropdown from 'react-bootstrap/NavDropdown';
 import { SHOP_ROUTE } from "../utils/consts";
+import { observer } from "mobx-react-lite";
 
-const NavBar = () => {
+const NavBar = observer(() => {
 
     const {user} = useContext(Context)
     return(
         <Navbar bg="light" expand="lg">
-        <Container fluid>
-          <Navbar.Brand href="#">Navbar scroll</Navbar.Brand>
+        <Container fluid className="ms-5 me-5">
+          <Navbar.Brand href={SHOP_ROUTE}>Девайс для Вас</Navbar.Brand>
           <Navbar.Toggle aria-controls="navbarScroll" />
           <Navbar.Collapse id="navbarScroll">
             <Nav
@@ -38,19 +38,21 @@ const NavBar = () => {
                 Link
               </Nav.Link>
             </Nav>
-            <Form className="d-flex">
-              <Form.Control
-                type="search"
-                placeholder="Search"
-                className="me-2"
-                aria-label="Search"
-              />
-              <Button variant="outline-success">Search</Button>
-            </Form>
+            {user.isAuth ? 
+              <div>
+                <Button  variant="outline-success" >Войти как админ</Button>
+                <Button  variant="outline-success" className="ms-3">Выйти</Button>
+              </div>
+                :
+              <div>
+                <Button  variant="outline-success"  onClick={() => user.setIsAuth(true)}>Авторизация</Button>  
+              </div>
+            }
+            
           </Navbar.Collapse>
         </Container>
       </Navbar>
     )
-}
+  });
 
 export default NavBar;
